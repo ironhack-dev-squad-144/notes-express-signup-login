@@ -1,4 +1,5 @@
 <form id="form" action="/signup" method="POST">
+  <h2>Signup</h2>
   <label for="username">Username</label><br>
 
   {{!-- Define a req.body.username --}}
@@ -7,9 +8,12 @@
   <label for="password">Password</label><br>
   <input type="password" name="password" placeholder="********">
 
+  <label for="confirmPassword">Confirm Password</label><br>
+  <input type="password" name="confirmPassword" placeholder="********">
+
   <button type="submit">Create account</button>
 </form>
 
 {{#if errorMessage}}
-  <div class="error-message">{{ errorMessage }}</div>
+<div class="error-message">{{ errorMessage }}</div>
 {{/if}}
