@@ -167,4 +167,12 @@ router.get("/profile", checkLogin, (req, res, next) => {
   res.render("profile", { user: req.user });
 });
 
+
+router.get("/auth/slack", passport.authenticate("slack"));
+router.get("/auth/slack/callback", passport.authenticate("slack", {
+  successRedirect: "/profile",
+  failureRedirect: "/"
+}));
+
+
 module.exports = router;

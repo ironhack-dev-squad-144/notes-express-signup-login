@@ -1,4 +1,12 @@
 <h1>Profile</h1>
 
-username: {{user.username}} <br>
+{{#if user.username}}
+  username: {{user.username}} <br>
+{{/if}}
+{{#if user.slackID}}
+  slackID: {{user.slackID}} <br>
+{{/if}}
+{{#if user.profilePicture}}
+  profilePicture: <img src="{{user.profilePicture}}" alt=""><br>
+{{/if}}
 created at: {{user.createdAt}}<br>

@@ -15,6 +15,7 @@ const LocalStrategy = require("passport-local").Strategy; // For passport
 const User = require("./models/User");
 const bcrypt = require("bcrypt");
 const flash = require("connect-flash");
+const SlackStrategy = require('passport-slack').Strategy;
 
 mongoose
   .connect("mongodb://localhost/notes-express-signup-login", {
@@ -106,6 +107,29 @@ passport.use(
       .catch(err => done(err));
   })
 );
+passport.use(new SlackStrategy({
+  clientID: "2432150752.684142367671",
+  clientSecret: "5f6af0a552c972aa4559e55c03ae3bef"
+}, (accessToken, refreshToken, profile, done) => {
+  console.log("TCL: profile", profile)
+  User.findOne({ slackID: profile.id })
+  .then(user => {
+    if (user) {
+      done(null, user);
+    }
+    else {
+      const newUser = new User({
+        slackID: profile.id,
+        profilePicture: profile.user.image_512
+      });
+      newUser.save()
+      .then(user => {
+        done(null, newUser);
+      })
+    }
+  })
+  .catch(err => done(err))
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
